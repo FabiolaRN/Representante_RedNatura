@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RedNatura - Suplementos Naturales</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <div class="logo-text">🌿 RedNatura</div>
+        <p>Suplementos alimenticios naturales</p>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#sucursales">Sucursales</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Bienvenido a RedNatura</h1>
+      <p>Tu salud es nuestra prioridad</p>
+      <div class="subtitulo">
+        Descubre nuestros suplementos naturales de alta calidad, formulados con los mejores ingredientes para mejorar tu bienestar
+      </div>
+      <button class="cta-btn" onclick="document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">
+        Explorar Productos
+      </button>
+    </div>
+  </section>
+
+  <!-- Sección Productos -->
+  <section id="productos" class="productos">
+    <div class="container">
+      <h2>Nuestros Productos</h2>
+      <p class="descripcion">Selecciona la categoría que buscas</p>
+      <div class="filtros">
+        <button class="filtro-btn active" onclick="filtrarProductos('todos', this)">Todos</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Digestión', this)">Digestión</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Mental', this)">Mental</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Mujeres', this)">Mujeres</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Hombres', this)">Hombres</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Belleza', this)">Belleza</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Inmunológico', this)">Inmunológico</button>
+        <button class="filtro-btn" onclick="filtrarProductos('Desintoxicación', this)">Desintoxicación</button>
+      </div>
+      <div id="productos-grid" class="productos-grid"></div>
+    </div>
+  </section>
+
+  <!-- Sección Sucursales -->
+  <section id="sucursales" class="sucursales">
+    <div class="container">
+      <h2>Nuestras Sucursales</h2>
+      <p>Visítanos en cualquiera de nuestras ubicaciones en CDMX</p>
+      <div id="sucursales-grid" class="sucursales-grid"></div>
+    </div>
+  </section>
+
+  <!-- Sección Contacto -->
+  <section id="contacto" class="contacto">
+    <div class="container">
+      <h2>Conócenos</h2>
+      <div class="conocenos-content">
+        <div class="conocenos-texto">
+          <h3>¿Por qué elegir RedNatura?</h3>
+          <p>Somos una empresa comprometida con tu bienestar integral. Nuestros productos son formulados con ingredientes naturales de la más alta calidad, sin aditivos artificiales.</p>
+          <ul class="beneficios-list">
+            <li>✓ Ingredientes naturales certificados</li>
+            <li>✓ Formulaciones científicamente comprobadas</li>
+            <li>✓ Atención personalizada de nuestro equipo</li>
+            <li>✓ Promociones exclusivas para miembros</li>
+          </ul>
+          <button class="cta-btn" onclick="toggleChat()">Habla con nuestro Asistente</button>
+        </div>
+        <div class="conocenos-imagen">
+          <div class="imagen-placeholder">🌱</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chatbot -->
+  <div id="chatbot" class="chatbot-container hidden">
+    <div class="chatbot-header">
+      <h3>🤖 Asistente RedNatura</h3>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
+    </div>
+    <div id="chat-messages" class="chat-messages"></div>
+    <div class="chat-input-area">
+      <input id="chat-input" type="text" placeholder="Escribe 'ayuda' para más opciones..." onkeypress="handleChatInput(event)">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+  <button class="chat-toggle" onclick="toggleChat()">💬 Asistente</button>
+
+  <!-- Modal para detalles de producto -->
+  <div id="productoModal" class="modal">
+    <div class="modal-content producto-detail">
+      <span class="close-modal" onclick="cerrarModalProducto()">&times;</span>
+      <div id="producto-detalle"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 RedNatura - Todos los derechos reservados</p>
+    <p>Teléfono: 5555070734</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/productos.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
