@@ -11,8 +11,11 @@
   <nav class="navbar">
     <div class="container">
       <div class="logo">
-        <h1>🌿 RedNatura</h1>
-        <p>Suplementos alimenticios naturales</p>
+        <img src="img/logo.png" alt="Logo RedNatura" class="logo-img" style="height: 50px; margin-right: 1rem;">
+        <div>
+          <div class="logo-text">🌿 RedNatura</div>
+          <p>Suplementos alimenticios naturales</p>
+        </div>
       </div>
       <ul class="nav-links">
         <li><a href="index.html#bienvenida">Inicio</a></li>
@@ -88,8 +91,8 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
           <!-- Imagen izquierda -->
           <div style="text-align: center;">
-            <img src="${prod.imagen}" alt="${prod.nombre}" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
-            ${tieneDescuento ? `<p style="margin-top: 2rem; background: linear-gradient(135deg, #ffd89b 0%, #fff5d0 100%); color: #d84315; padding: 1rem; border-radius: 8px; font-weight: bold; border: 2px solid #ff9800; animation: glow 2s ease-in-out infinite;">✨ OFERTA LIMITADA - ¡AL INSCRIBIRSE HOY OBTENDRÁS 30% DE DESCUENTO! ✨</p>` : ''}
+            <img src="${prod.imagen}" alt="${prod.nombre}" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" onerror="this.src='img/placeholder.png'">
+            ${tieneDescuento ? `<p style="margin-top: 2rem; background: linear-gradient(135deg, #ffd89b 0%, #fff5d0 100%); color: #d84315; padding: 1rem; border-radius: 8px; font-weight: bold; border: 2px solid #ff9800;">💚 Presenta tu tarjeta en sucursal para obtener 30% DESC</p>` : ''}
           </div>
 
           <!-- Detalles derecha -->
@@ -108,7 +111,7 @@
             </div>
 
             <button class="btn-producto" onclick="abrirModalRegistro()" style="width: calc(100% - 3rem); padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem;">😊 Estoy Interesado</button>
-            <a href="https://wa.me/5551234567?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}%20-%20$${prod.precio}" target="_blank" class="btn-whatsapp" style="width: calc(100% - 3rem); padding: 1rem; font-size: 1.1rem;">💬 Consultar por WhatsApp</a>
+            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}%20-%20$$${prod.precio}" target="_blank" class="btn-whatsapp" style="width: calc(100% - 2rem); display: block; padding: 1rem; text-align: center;">💬 WhatsApp</a>
           </div>
         </div>
 

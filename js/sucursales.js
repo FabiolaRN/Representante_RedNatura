@@ -32,7 +32,14 @@ const sucursales = [
   { id: 31, nombre: "Tacámbaro", estado: "Michoacán" },
   { id: 32, nombre: "Tampico", estado: "Tamaulipas" },
   { id: 33, nombre: "Tapachula", estado: "Chiapas" },
-  { id: 34, nombre: "Tuzutlán", estado: "Puebla" }
+  { id: 34, nombre: "Tuzutlán", estado: "Puebla" },
+  { id: 35, nombre: "Tijuana", estado: "Baja California" },
+  { id: 36, nombre: "Tulancingo", estado: "Hidalgo" },
+  { id: 37, nombre: "Tuxtla Gutiérrez", estado: "Chiapas" },
+  { id: 38, nombre: "Uruapan", estado: "Michoacán" },
+  { id: 39, nombre: "Villahermosa", estado: "Tabasco" },
+  { id: 40, nombre: "Zumpango", estado: "Edomex" },
+  { id: 41, nombre: "León", estado: "Guanajuato" }
 ];
 
 // Estados únicos para el chatbot
