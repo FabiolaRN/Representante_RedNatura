@@ -196,30 +196,6 @@
       document.getElementById('registro-form').reset();
       cerrarRegistro();
     }
- <script>
-document.getElementById("registro-form").addEventListener("submit", function(e) {
-  e.preventDefault(); // evita redirección
-
-  const formData = new FormData(this);
-  formData.append("_captcha", "false"); // desactiva captcha
-
-  fetch("https://formsubmit.co/ajax/fabiola250204@gmail.com", {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById("mensaje-confirmacion").innerText =
-      "✅ Registro enviado correctamente. ¡Gracias por tu interés!";
-    this.reset(); // limpia el formulario
-  })
-  .catch(error => {
-    document.getElementById("mensaje-confirmacion").innerText =
-      "❌ Hubo un error al enviar el registro.";
-    console.error(error);
-  });
-});
-</script>
-
+  </script>
 </body>
-</html>
+</html> 
