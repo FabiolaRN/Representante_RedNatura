@@ -4,6 +4,7 @@ const respuestasBot = {
 };
 
 let chatMessages = [];
+const WA_NUMBER = '5555070734';
 
 // Función para enviar mensaje
 function sendMessage() {
@@ -100,7 +101,7 @@ function mostrarCategorias() {
   const messagesDiv = document.getElementById('chat-messages');
   const categoriasEl = document.createElement('div');
   categoriasEl.className = 'chat-menu';
-  const categorias = ['Digestión', 'Mental', 'Mujeres', 'Hombres', 'Niños', 'Belleza', 'Inmunológico', 'Energía', 'Glucosa', 'Circulación', 'Articulaciones', 'Desintoxicación'];
+  const categorias = ['Digestión', 'Mental', 'Mujeres', 'Hombres', 'Niños', 'Belleza', 'Inmunológico', 'Energía', 'Glucosa', 'Circulación', 'Articulaciones', 'Desintoxicación', 'Control de Peso', 'Urinario', 'Antioxidantes'];
   categoriasEl.innerHTML = categorias.map(cat => `<button class="menu-btn" onclick="buscarCategoria('${cat}')">${cat}</button>`).join('');
   messagesDiv.appendChild(categoriasEl);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -140,7 +141,7 @@ function mostrarProductoChat(productoId) {
     botonesEl.className = 'chat-menu';
     botonesEl.innerHTML = `
       <button class="menu-btn" onclick="irAlDetalle(${prod.id})">📄 Ver Detalles</button>
-      <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}" target="_blank" class="menu-btn">💬 WhatsApp</a>
+      <a href="https://wa.me/${WA_NUMBER}?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}" target="_blank" class="menu-btn">💬 WhatsApp</a>
     `;
     messagesDiv.appendChild(botonesEl);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -176,19 +177,19 @@ function seleccionarSucursal(nombre) {
   const botonesEl = document.createElement('div');
   botonesEl.className = 'chat-menu';
   botonesEl.innerHTML = `
-    <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20la%20sucursal%20de%20${encodeURIComponent(nombre)}" target="_blank" class="menu-btn">💬 WhatsApp</a>
+    <a href="https://wa.me/${WA_NUMBER}?text=Estoy%20interesado%20en%20la%20sucursal%20de%20${encodeURIComponent(nombre)}" target="_blank" class="menu-btn">💬 WhatsApp</a>
   `;
   messagesDiv.appendChild(botonesEl);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
 function mostrarContacto() {
-  addMessage('📞 **Contáctanos:**\n💬 WhatsApp: 5555070734\n📧 Email: fabiola250204@gmail.com', 'bot');
+  addMessage(`📞 **Contáctanos:**\n💬 WhatsApp: ${WA_NUMBER}\n📧 Email: fabiola250204@gmail.com`, 'bot');
   const messagesDiv = document.getElementById('chat-messages');
   const contactoEl = document.createElement('div');
   contactoEl.className = 'chat-menu';
   contactoEl.innerHTML = `
-    <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20RedNatura" target="_blank" class="menu-btn">💬 WhatsApp</a>
+    <a href="https://wa.me/${WA_NUMBER}?text=Estoy%20interesado%20en%20RedNatura" target="_blank" class="menu-btn">💬 WhatsApp</a>
     <a href="mailto:fabiola250204@gmail.com?subject=Consulta RedNatura" class="menu-btn">📧 Email</a>
   `;
   messagesDiv.appendChild(contactoEl);
