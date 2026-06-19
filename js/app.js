@@ -25,7 +25,7 @@ function mostrarProductos(lista) {
 
         card.innerHTML = `
             <div class="producto-imagen-container">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img" onerror="this.src='img/placeholder.png'">
                 ${tieneDescuento ? '<div class="descuento-badge">🎁 30% DESC</div>' : ''}
             </div>
             <h3>${producto.nombre}</h3>
@@ -36,7 +36,7 @@ function mostrarProductos(lista) {
             </div>
             ${tieneDescuento ? `<p class="promo-text">✨ OFERTA LIMITADA - ¡AL INSCRIBIRSE HOY! ✨</p>` : ''}
             <button class="btn-producto" onclick="irAlDetalle(${producto.id})">📄 Ver Detalles</button>
-            <a href="https://wa.me/5551234567?text=Estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(producto.nombre)}%20-%20$${producto.precio}" target="_blank" class="btn-whatsapp">💬 Consultar</a>
+            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(producto.nombre)}%20-%20$${producto.precio}" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
         `;
         
         grid.appendChild(card);
