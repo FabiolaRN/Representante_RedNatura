@@ -59,19 +59,28 @@
     <div class="modal-content">
       <button class="close-modal" onclick="cerrarRegistro()">×</button>
       <h2>Registro de Interés</h2>
-      <form id="registro-form" action="https://formsubmit.co/fabiola25020@gmail.com" method="POST">
-  <input type="text" name="nombre" placeholder="Nombre completo" required>
-  <input type="tel" name="celular" placeholder="Celular" required>
-  <input type="email" name="email" placeholder="Email" required>
-  <input type="text" name="nacimiento" placeholder="Lugar de nacimiento" required>
-  <input type="date" name="fechaNacimiento" required>
-  <textarea name="mensaje" placeholder="Mensaje (opcional)" rows="3"></textarea>
+      <form id="registro-form" action="https://formsubmit.co/fabiola250204@gmail.com" method="POST">
+  <!-- Campos visibles -->
+  <label>Nombre:</label>
+  <input type="text" name="nombre" required>
+  
+  <label>Apellidos:</label>
+  <input type="text" name="apellidos" required>
+  
+  <label>Teléfono:</label>
+  <input type="tel" name="telefono" required>
+  
+  <label>Lugar de nacimiento:</label>
+  <input type="text" name="lugar" required>
+  
+  <label>Fecha de nacimiento:</label>
+  <input type="date" name="fecha" required>
 
-  <!-- Opciones ocultas -->
-  <input type="hidden" name="_subject" value="Nuevo registro RedNatura">
+  <!-- Configuración oculta -->
+  <input type="hidden" name="_next" value="https://tusitio.com/gracias.html">
   <input type="hidden" name="_captcha" value="false">
 
-  <button type="submit" class="btn-submit">Enviar Solicitud</button>
+  <button type="submit">Enviar registro</button>
 </form>
 
     </div>
