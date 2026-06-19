@@ -52,4 +52,27 @@ function irAlDetalle(productoId) {
 document.addEventListener('DOMContentLoaded', () => {
     mostrarProductos(productos);
     cargarSucursales();
+}
+                         // Manejo del formulario de registro
+document.getElementById("registro-form").addEventListener("submit", function(e) {
+  e.preventDefault(); // evita que cambie de página
+
+  const formData = new FormData(this);
+  formData.append("_captcha", "false"); // desactiva captcha
+
+  fetch("https://formsubmit.co/ajax/fabiola250204@gmail.com", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("mensaje-confirmacion").innerText =
+      "✅ Registro enviado correctamente. ¡Gracias por tu interés!";
+    this.reset(); // limpia el formulario
+  })
+  .catch(error => {
+    document.getElementById("mensaje-confirmacion").innerText =
+      "❌ Hubo un error al enviar el registro.";
+    console.error(error);
+  });
 });
