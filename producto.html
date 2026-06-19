@@ -59,15 +59,21 @@
     <div class="modal-content">
       <button class="close-modal" onclick="cerrarRegistro()">×</button>
       <h2>Registro de Interés</h2>
-      <form id="registro-form" onsubmit="enviarRegistro(event)">
-        <input type="text" id="nombre" placeholder="Nombre completo" required>
-        <input type="tel" id="celular" placeholder="Celular" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="text" id="nacimiento" placeholder="Lugar de nacimiento" required>
-        <input type="date" id="fecha-nacimiento" placeholder="Fecha de nacimiento" required>
-        <textarea id="mensaje" placeholder="Mensaje (opcional)" rows="3"></textarea>
-        <button type="submit" class="btn-submit">Enviar Solicitud</button>
-      </form>
+      <form id="registro-form" action="https://formsubmit.co/fabiola25020@gmail.com" method="POST">
+  <input type="text" name="nombre" placeholder="Nombre completo" required>
+  <input type="tel" name="celular" placeholder="Celular" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="text" name="nacimiento" placeholder="Lugar de nacimiento" required>
+  <input type="date" name="fechaNacimiento" required>
+  <textarea name="mensaje" placeholder="Mensaje (opcional)" rows="3"></textarea>
+
+  <!-- Opciones ocultas -->
+  <input type="hidden" name="_subject" value="Nuevo registro RedNatura">
+  <input type="hidden" name="_captcha" value="false">
+
+  <button type="submit" class="btn-submit">Enviar Solicitud</button>
+</form>
+
     </div>
   </div>
 
