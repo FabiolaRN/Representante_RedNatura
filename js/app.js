@@ -36,49 +36,60 @@ function mostrarProductos(lista) {
             </div>
             ${tieneDescuento ? `<p class="promo-text">✨ OFERTA LIMITADA - ¡AL INSCRIBIRSE HOY! ✨</p>` : ''}
             <button class="btn-producto" onclick="irAlDetalle(${producto.id})">📄 Ver Detalles</button>
-            <button class="btn-interesado" onclick="abrirFormularioInteres(${producto.id}, '${producto.nombre.replace(/'/g, "\\'")}')">💌 Estoy Interesado</button>
+            <a href="https://formspree.io/f/xyzgwkdj" method="POST" class="btn-interesado-link" onclick="return abrirFormularioInteres(event, '${producto.nombre.replace(/'/g, "\\'")}')">
+                💌 Estoy Interesado
+            </a>
         `;
         
         grid.appendChild(card);
     });
 }
 
+// Función para abrir formulario de interés con FormSubmit
+function abrirFormularioInteres(event, nombreProducto) {
+    event.preventDefault();
+    
+    const nombre = prompt('¿Cuál es tu nombre?');
+    if (!nombre) return false;
+    
+    const email = prompt('¿Cuál es tu correo electrónico?');
+    if (!email) return false;
+    
+    const telefono = prompt('¿Cuál es tu teléfono? (opcional)');
+    
+    // Enviar datos a FormSubmit
+    const formData = new FormData();
+    formData.append('Producto', nombreProducto);
+    formData.append('Nombre', nombre);
+    formData.append('Email', email);
+    formData.append('Teléfono', telefono || 'No proporcionado');
+    
+    fetch('https://formspree.io/f/xyzgwkdj', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('¡Gracias! Tu interés ha sido registrado. Nos pondremos en contacto pronto.');
+        } else {
+            alert('Hubo un error. Por favor intenta nuevamente.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al enviar. Intenta nuevamente.');
+    });
+    
+    return false;
+}
+
 // Función para ir al detalle del producto
 function irAlDetalle(productoId) {
     window.location.href = `producto.html?id=${productoId}`;
 }
-
-// Función para abrir formulario de interés
-function abrirFormularioInteres(productoId, nombreProducto) {
-    const modal = document.getElementById('interesModal');
-    document.getElementById('producto-id').value = productoId;
-    document.getElementById('producto-nombre').value = nombreProducto;
-    document.getElementById('nombre-interesado').value = '';
-    document.getElementById('email-interesado').value = '';
-    document.getElementById('telefono-interesado').value = '';
-    modal.classList.add('show');
-}
-
-// Función para cerrar modal de interés
-function cerrarFormularioInteres() {
-    const modal = document.getElementById('interesModal');
-    modal.classList.remove('show');
-}
-
-// Cerrar modal al hacer clic fuera
-document.addEventListener('click', (e) => {
-    const modal = document.getElementById('interesModal');
-    if (e.target === modal) {
-        cerrarFormularioInteres();
-    }
-});
-
-// Cerrar modal al presionar ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        cerrarFormularioInteres();
-    }
-});
 
 // Cargar productos al iniciar
 document.addEventListener('DOMContentLoaded', () => {
