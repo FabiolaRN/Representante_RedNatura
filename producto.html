@@ -36,7 +36,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>Representante: Fabiola</p>
+    <p>© 2026 RedNatura - Todos los derechos reservados | Representante: Fabiola</p>
   </footer>
 
   <!-- Chatbot -->
@@ -58,29 +58,29 @@
   <div id="registro-modal" class="modal hidden">
     <div class="modal-content">
       <button class="close-modal" onclick="cerrarRegistro()">×</button>
-      <h2>Registro de Interés</h2>
-      <form id="registro-form">
-  <label>Nombre:</label>
-  <input type="text" name="nombre" required>
+      <h2>📝 Registro de Interés</h2>
+      <form id="registro-form" onsubmit="enviarFormulario(event)">
+        <label><strong>Nombre:</strong></label>
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
 
-  <label>Apellidos:</label>
-  <input type="text" name="apellidos" required>
+        <label><strong>Apellidos:</strong></label>
+        <input type="text" name="apellidos" placeholder="Tus apellidos" required>
 
-  <label>Teléfono:</label>
-  <input type="tel" name="telefono" required>
+        <label><strong>Teléfono:</strong></label>
+        <input type="tel" name="telefono" placeholder="10 dígitos (ej: 5555070734)" required>
 
-  <label>Lugar de nacimiento:</label>
-  <input type="text" name="lugar" required>
+        <label><strong>Lugar de nacimiento:</strong></label>
+        <input type="text" name="lugar" placeholder="Ciudad o Estado" required>
 
-  <label>Fecha de nacimiento:</label>
-  <input type="date" name="fecha" required>
+        <label><strong>Fecha de nacimiento:</strong></label>
+        <input type="date" name="fecha" required>
 
-  <button type="submit">Enviar registro</button>
-</form>
+        <label><strong>Mensaje adicional:</strong></label>
+        <textarea name="mensaje" placeholder="Pregunta o comentario (opcional)" rows="3"></textarea>
 
-<!-- Aquí aparecerá el mensaje -->
-<div id="mensaje-confirmacion"></div>
-
+        <button type="submit" class="btn-submit">📱 Enviar por WhatsApp</button>
+      </form>
+      <div id="mensaje-confirmacion"></div>
     </div>
   </div>
 
@@ -88,6 +88,7 @@
   <script src="js/productos.js"></script>
   <script src="js/sucursales.js"></script>
   <script src="js/chatbot.js"></script>
+  <script src="js/form-handler.js"></script>
   <script>
     // Obtener el ID desde la URL
     const params = new URLSearchParams(window.location.search);
@@ -123,8 +124,8 @@
               ${tieneDescuento ? `<p style="font-size: 1.3rem; color: #27ae60; font-weight: bold;">💚 Con 30% DESC: $${precioDescuento.toLocaleString('es-MX')}</p>` : ''}
             </div>
 
-            <button class="btn-producto" onclick="abrirModalRegistro()" style="width: calc(100% - 3rem); padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem;">😊 Estoy Interesado</button>
-            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}%20-%20$$${prod.precio}" target="_blank" class="btn-whatsapp" style="width: calc(100% - 2rem); display: block; padding: 1rem; text-align: center;">💬 WhatsApp</a>
+            <button class="btn-producto" onclick="abrirModalRegistro('Producto', '${prod.nombre}')" style="width: calc(100% - 3rem); padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">😊 Estoy Interesado</button>
+            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}%20-%20$$${prod.precio}" target="_blank" class="btn-whatsapp" style="width: calc(100% - 2rem); display: block; padding: 1rem; text-align: center; background: #25d366; color: white; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 1rem;">💬 WhatsApp</a>
           </div>
         </div>
 
@@ -154,48 +155,6 @@
     } else {
       detalleDiv.innerHTML = "<p style='text-align: center; color: #666; padding: 2rem;'>Producto no encontrado.</p>";
     }
-
-    function abrirModalRegistro() {
-      const modal = document.getElementById('registro-modal');
-      const titulo = modal.querySelector('h2');
-      titulo.textContent = `Interés en: ${prod.nombre}`;
-      modal.setAttribute('data-tipo', 'producto');
-      modal.setAttribute('data-nombre', prod.nombre);
-      modal.classList.remove('hidden');
-      modal.classList.add('show');
-    }
-
-    function cerrarRegistro() {
-      const modal = document.getElementById('registro-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('show');
-    }
-
-    function enviarRegistro(event) {
-      event.preventDefault();
-      
-      const datos = {
-        tipo: document.getElementById('registro-modal').getAttribute('data-tipo') || 'general',
-        nombre: document.getElementById('nombre').value,
-        celular: document.getElementById('celular').value,
-        email: document.getElementById('email').value,
-        nacimiento: document.getElementById('nacimiento').value,
-        fechaNacimiento: document.getElementById('fecha-nacimiento').value,
-        mensaje: document.getElementById('mensaje').value,
-        fecha: new Date().toLocaleString('es-MX')
-      };
-
-      // Guardar en localStorage
-      let registros = JSON.parse(localStorage.getItem('registrosRedNatura') || '[]');
-      registros.push(datos);
-      localStorage.setItem('registrosRedNatura', JSON.stringify(registros));
-
-      console.log('Datos para enviar:', datos);
-      alert(`¡Gracias ${datos.nombre}! Tu registro ha sido enviado.\nNos contactaremos al ${datos.celular}`);
-      
-      document.getElementById('registro-form').reset();
-      cerrarRegistro();
-    }
   </script>
 </body>
-</html> 
+</html>
