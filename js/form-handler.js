@@ -7,11 +7,10 @@ const CONTACT_CONFIG = {
 // Función para enviar registro por WhatsApp
 function enviarRegistroWhatsApp(datos) {
   const mensaje = `
-🏪 *NUEVO REGISTRO DE INTERES*
+🎯 *NUEVO REGISTRO DE INTERES*
 
 👤 *Nombre:* ${datos.nombre} ${datos.apellidos}
 📱 *Teléfono:* ${datos.telefono}
-📧 *Email:* ${datos.email}
 📍 *Lugar de Nacimiento:* ${datos.lugar}
 🎂 *Fecha de Nacimiento:* ${datos.fecha}
 🛍️ *Producto/Sucursal:* ${datos.tipo}
@@ -23,8 +22,9 @@ function enviarRegistroWhatsApp(datos) {
   window.open(urlWhatsApp, '_blank');
 }
 
-// Función para guardar registro localmente
+// Función para guardar registro localmente y mostrar confirmación
 function registrarUsuario(datos) {
+  // Guardar en localStorage
   let registros = JSON.parse(localStorage.getItem('registrosRedNatura') || '[]');
   registros.push({
     ...datos,
@@ -32,20 +32,18 @@ function registrarUsuario(datos) {
     fechaRegistro: new Date().toLocaleString('es-MX')
   });
   localStorage.setItem('registrosRedNatura', JSON.stringify(registros));
-  console.log('✅ Registro guardado localmente:', datos);
+  console.log('✅ Registro guardado:', datos);
 }
 
 // Función para manejar envío del formulario
 function enviarFormulario(event) {
-  // No evitamos el envío porque Netlify necesita que el formulario se envíe
-  // event.preventDefault();
+  event.preventDefault();
 
   const form = event.target;
   const datos = {
     nombre: form.nombre.value.trim(),
     apellidos: form.apellidos.value.trim(),
     telefono: form.telefono.value.trim(),
-    email: form.email.value.trim(),
     lugar: form.lugar.value.trim(),
     fecha: form.fecha.value,
     mensaje: form.mensaje ? form.mensaje.value.trim() : '',
@@ -53,91 +51,43 @@ function enviarFormulario(event) {
   };
 
   // Validar campos
-  if (!datos.nombre || !datos.apellidos || !datos.telefono || !datos.email || !datos.lugar || !datos.fecha) {
+  if (!datos.nombre || !datos.apellidos || !datos.telefono || !datos.lugar || !datos.fecha) {
     alert('⚠️ Por favor completa todos los campos requeridos');
-    event.preventDefault();
-    return false;
+    return;
   }
 
   // Validar teléfono (10 dígitos)
-  const telLimpio = datos.telefono.replace(/\D/g, '');
-  if (telLimpio.length !== 10) {
+  if (!/^\d{10}$/.test(datos.telefono.replace(/\D/g, ''))) {
     alert('⚠️ Por favor ingresa un teléfono válido (10 dígitos)');
-    event.preventDefault();
-    return false;
+    return;
   }
 
-  // Validar email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(datos.email)) {
-    alert('⚠️ Por favor ingresa un email válido');
-    event.preventDefault();
-    return false;
-  }
-
-  // Guardar registro localmente
+  // Guardar registro
   registrarUsuario(datos);
 
+  // Enviar por WhatsApp
+  enviarRegistroWhatsApp(datos);
+
   // Mostrar confirmación
-  mostrarEstadoEnvio();
-
-  // Permitir que Netlify envíe el formulario
-  return true;
-}
-
-// Función para mostrar estado de envío
-function mostrarEstadoEnvio() {
   const confirmacion = document.getElementById('mensaje-confirmacion');
   if (confirmacion) {
     confirmacion.innerHTML = `
-      <div style="background: #d4edda; color: #155724; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; border: 1px solid #c3e6cb;">
-        <h3 style="margin-top: 0;">✅ ¡Registro Enviado Exitosamente!</h3>
-        <p>📧 Tu información ha sido enviada a:</p>
-        <ul style="text-align: left; margin: 1rem 0;">
-          <li>📬 <strong>Email:</strong> fabiola250204@gmail.com</li>
-          <li>💾 <strong>Base de datos local:</strong> Guardado como respaldo</li>
-        </ul>
-        <hr style="border: none; border-top: 1px solid #c3e6cb; margin: 1rem 0;">
-        <p style="margin-bottom: 1rem;">🙏 Fabiola se pondrá en contacto contigo pronto.</p>
+      <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid #c3e6cb;">
+        <h3>✅ ¡Registro Exitoso!</h3>
+        <p>Se abrirá WhatsApp para enviar tu información a Fabiola.</p>
+        <p>Si no se abre automáticamente, copia este mensaje:</p>
+        <textarea readonly style="width: 100%; height: 100px; margin-top: 0.5rem; padding: 0.5rem; border: 1px solid #999; border-radius: 4px;">${encodeURIComponent(mensaje)}</textarea>
       </div>
-      <button onclick="continuarConWhatsApp()" style="width: 100%; padding: 1rem; margin-top: 1rem; background: #25d366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem;">
-        📱 Continuar por WhatsApp (Opcional)
-      </button>
-      <button onclick="cerrarRegistro()" style="width: 100%; padding: 0.8rem; margin-top: 0.5rem; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-        ✕ Cerrar
-      </button>
     `;
   }
-}
 
-// Función para continuar por WhatsApp
-function continuarConWhatsApp() {
-  const form = document.getElementById('registro-form');
-  const nombre = form.nombre.value;
-  const apellidos = form.apellidos.value;
-  const telefono = form.telefono.value;
-  const email = form.email.value;
-  const lugar = form.lugar.value;
-  const fecha = form.fecha.value;
-  const mensaje = form.mensaje ? form.mensaje.value : '';
-  const tipo = form.getAttribute('data-tipo') || 'General';
+  // Limpiar formulario
+  form.reset();
 
-  const datos = {
-    nombre: nombre,
-    apellidos: apellidos,
-    telefono: telefono,
-    email: email,
-    lugar: lugar,
-    fecha: fecha,
-    mensaje: mensaje,
-    tipo: tipo
-  };
-
-  enviarRegistroWhatsApp(datos);
-  
+  // Cerrar modal después de 2 segundos
   setTimeout(() => {
     cerrarRegistro();
-  }, 500);
+  }, 2000);
 }
 
 // Función para abrir modal de registro
@@ -152,10 +102,6 @@ function abrirModalRegistro(tipo = 'General', nombre = '') {
   form.setAttribute('data-tipo', nombre || tipo);
   form.onsubmit = enviarFormulario;
   
-  // Limpiar confirmación previa
-  const confirmacion = document.getElementById('mensaje-confirmacion');
-  if (confirmacion) confirmacion.innerHTML = '';
-  
   modal.classList.remove('hidden');
   modal.classList.add('show');
 }
@@ -168,8 +114,6 @@ function cerrarRegistro() {
     modal.classList.remove('show');
     const confirmacion = document.getElementById('mensaje-confirmacion');
     if (confirmacion) confirmacion.innerHTML = '';
-    const form = document.getElementById('registro-form');
-    if (form) form.reset();
   }
 }
 
@@ -179,4 +123,5 @@ document.addEventListener('click', function(event) {
   if (modal && event.target === modal) {
     cerrarRegistro();
   }
+});
 });
