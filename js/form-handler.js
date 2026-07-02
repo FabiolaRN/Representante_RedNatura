@@ -1,43 +1,8 @@
 // Configuración de contacto
 const CONTACT_CONFIG = {
   whatsapp: '5555070734',
-  email: 'fabiola250204@gmail.com',
-  formspree: 'https://formspree.io/f/xeebrwgn' // ID de Formspree actualizado
+  email: 'fabiola250204@gmail.com'
 };
-
-// Función para enviar email via Formspree
-function enviarEmailFormspree(datos) {
-  const formData = new FormData();
-  formData.append('Nombre', `${datos.nombre} ${datos.apellidos}`);
-  formData.append('Telefono', datos.telefono);
-  formData.append('Email', datos.email);
-  formData.append('Lugar de Nacimiento', datos.lugar);
-  formData.append('Fecha de Nacimiento', datos.fecha);
-  formData.append('Tipo', datos.tipo);
-  formData.append('Mensaje', datos.mensaje || 'Sin mensaje adicional');
-  formData.append('Fecha de Registro', new Date().toLocaleString('es-MX'));
-
-  fetch(CONTACT_CONFIG.formspree, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      console.log('✅ Email enviado correctamente a Formspree');
-      return true;
-    } else {
-      console.log('⚠️ Problema al enviar email');
-      return false;
-    }
-  })
-  .catch(error => {
-    console.error('❌ Error al enviar email:', error);
-    return false;
-  });
-}
 
 // Función para enviar registro por WhatsApp
 function enviarRegistroWhatsApp(datos) {
@@ -58,9 +23,8 @@ function enviarRegistroWhatsApp(datos) {
   window.open(urlWhatsApp, '_blank');
 }
 
-// Función para guardar registro localmente y mostrar confirmación
+// Función para guardar registro localmente
 function registrarUsuario(datos) {
-  // Guardar en localStorage
   let registros = JSON.parse(localStorage.getItem('registrosRedNatura') || '[]');
   registros.push({
     ...datos,
@@ -73,7 +37,8 @@ function registrarUsuario(datos) {
 
 // Función para manejar envío del formulario
 function enviarFormulario(event) {
-  event.preventDefault();
+  // No evitamos el envío porque Netlify necesita que el formulario se envíe
+  // event.preventDefault();
 
   const form = event.target;
   const datos = {
@@ -90,55 +55,38 @@ function enviarFormulario(event) {
   // Validar campos
   if (!datos.nombre || !datos.apellidos || !datos.telefono || !datos.email || !datos.lugar || !datos.fecha) {
     alert('⚠️ Por favor completa todos los campos requeridos');
-    return;
+    event.preventDefault();
+    return false;
   }
 
   // Validar teléfono (10 dígitos)
   const telLimpio = datos.telefono.replace(/\D/g, '');
   if (telLimpio.length !== 10) {
     alert('⚠️ Por favor ingresa un teléfono válido (10 dígitos)');
-    return;
+    event.preventDefault();
+    return false;
   }
 
   // Validar email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(datos.email)) {
     alert('⚠️ Por favor ingresa un email válido');
-    return;
+    event.preventDefault();
+    return false;
   }
-
-  // Mostrar estado de envío
-  mostrarEstadoEnvio();
 
   // Guardar registro localmente
   registrarUsuario(datos);
 
-  // Enviar por email via Formspree
-  enviarEmailFormspree(datos);
+  // Mostrar confirmación
+  mostrarEstadoEnvio();
 
-  // Limpiar formulario
-  form.reset();
-
-  // Mostrar confirmación después de 1 segundo
-  setTimeout(() => {
-    mostrarConfirmacion();
-  }, 1000);
+  // Permitir que Netlify envíe el formulario
+  return true;
 }
 
 // Función para mostrar estado de envío
 function mostrarEstadoEnvio() {
-  const confirmacion = document.getElementById('mensaje-confirmacion');
-  if (confirmacion) {
-    confirmacion.innerHTML = `
-      <div style="background: #e3f2fd; color: #1976d2; padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid #90caf9; text-align: center;">
-        <p>📧 Enviando tu información...</p>
-      </div>
-    `;
-  }
-}
-
-// Función para mostrar confirmación final
-function mostrarConfirmacion() {
   const confirmacion = document.getElementById('mensaje-confirmacion');
   if (confirmacion) {
     confirmacion.innerHTML = `
@@ -165,18 +113,20 @@ function mostrarConfirmacion() {
 // Función para continuar por WhatsApp
 function continuarConWhatsApp() {
   const form = document.getElementById('registro-form');
-  const tipo = form.getAttribute('data-tipo') || 'General';
   const nombre = form.nombre.value;
   const apellidos = form.apellidos.value;
   const telefono = form.telefono.value;
+  const email = form.email.value;
   const lugar = form.lugar.value;
   const fecha = form.fecha.value;
   const mensaje = form.mensaje ? form.mensaje.value : '';
+  const tipo = form.getAttribute('data-tipo') || 'General';
 
   const datos = {
     nombre: nombre,
     apellidos: apellidos,
     telefono: telefono,
+    email: email,
     lugar: lugar,
     fecha: fecha,
     mensaje: mensaje,

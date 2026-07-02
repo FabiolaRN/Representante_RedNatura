@@ -59,7 +59,7 @@
     <div class="modal-content">
       <button class="close-modal" onclick="cerrarRegistro()">×</button>
       <h2>📝 Registro de Interés</h2>
-      <form id="registro-form" onsubmit="enviarFormulario(event)">
+      <form id="registro-form" name="contact" method="POST" netlify onsubmit="return enviarFormulario(event)">
         <label><strong>Nombre:</strong></label>
         <input type="text" name="nombre" placeholder="Tu nombre" required>
 
@@ -69,16 +69,22 @@
         <label><strong>Teléfono:</strong></label>
         <input type="tel" name="telefono" placeholder="10 dígitos (ej: 5555070734)" required>
 
+        <label><strong>Email:</strong></label>
+        <input type="email" name="email" placeholder="tu@email.com" required>
+
         <label><strong>Lugar de nacimiento:</strong></label>
         <input type="text" name="lugar" placeholder="Ciudad o Estado" required>
 
         <label><strong>Fecha de nacimiento:</strong></label>
         <input type="date" name="fecha" required>
 
+        <label><strong>Producto/Sucursal de interés:</strong></label>
+        <input type="text" id="tipo" name="tipo" placeholder="Producto o sucursal" readonly style="background: #f0f0f0; cursor: not-allowed;">
+
         <label><strong>Mensaje adicional:</strong></label>
         <textarea name="mensaje" placeholder="Pregunta o comentario (opcional)" rows="3"></textarea>
 
-        <button type="submit" class="btn-submit">📱 Enviar por WhatsApp</button>
+        <button type="submit" class="btn-submit">📧 Enviar Formulario</button>
       </form>
       <div id="mensaje-confirmacion"></div>
     </div>
@@ -124,8 +130,8 @@
               ${tieneDescuento ? `<p style="font-size: 1.3rem; color: #27ae60; font-weight: bold;">💚 Con 30% DESC: $${precioDescuento.toLocaleString('es-MX')}</p>` : ''}
             </div>
 
-            <button class="btn-producto" onclick="abrirModalRegistro('Producto', '${prod.nombre}')" style="width: calc(100% - 3rem); padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">😊 Estoy Interesado</button>
-            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}%20-%20$$${prod.precio}" target="_blank" class="btn-whatsapp" style="width: calc(100% - 2rem); display: block; padding: 1rem; text-align: center; background: #25d366; color: white; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 1rem;">💬 WhatsApp</a>
+            <button class="btn-producto" onclick="abrirModalRegistro('Producto', '${prod.nombre}')" style="width: calc(100% - 3rem); padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;" onmouseenter="this.style.background='#229954'" onmouseleave="this.style.background='#27ae60'">😊 Estoy Interesado</button>
+            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20${encodeURIComponent(prod.nombre)}%20-%20$${prod.precio}" target="_blank" class="btn-whatsapp" style="width: calc(100% - 2rem); display: block; padding: 1rem; text-align: center; background: #25d366; color: white; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 1rem;" onmouseenter="this.style.background='#1da851'" onmouseleave="this.style.background='#25d366'">📱 WhatsApp</a>
           </div>
         </div>
 
@@ -152,6 +158,9 @@
           <p style="color: #666; font-size: 1.1rem; line-height: 1.8;">${prod.modoUso}</p>
         </div>
       `;
+
+      // Establecer el tipo de producto en el formulario
+      document.getElementById('tipo').value = prod.nombre;
     } else {
       detalleDiv.innerHTML = "<p style='text-align: center; color: #666; padding: 2rem;'>Producto no encontrado.</p>";
     }
