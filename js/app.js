@@ -36,7 +36,7 @@ function mostrarProductos(lista) {
             </div>
             ${tieneDescuento ? `<p class="promo-text">✨ OFERTA LIMITADA - ¡AL INSCRIBIRSE HOY! ✨</p>` : ''}
             <button class="btn-producto" onclick="irAlDetalle(${producto.id})">📄 Ver Detalles</button>
-            <a href="https://wa.me/5555070734?text=Estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(producto.nombre)}%20-%20$${producto.precio}" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
+            <button class="btn-interesado" onclick="abrirFormularioInteres(${producto.id}, '${producto.nombre.replace(/'/g, "\\'")}')">💌 Estoy Interesado</button>
         `;
         
         grid.appendChild(card);
@@ -47,6 +47,38 @@ function mostrarProductos(lista) {
 function irAlDetalle(productoId) {
     window.location.href = `producto.html?id=${productoId}`;
 }
+
+// Función para abrir formulario de interés
+function abrirFormularioInteres(productoId, nombreProducto) {
+    const modal = document.getElementById('interesModal');
+    document.getElementById('producto-id').value = productoId;
+    document.getElementById('producto-nombre').value = nombreProducto;
+    document.getElementById('nombre-interesado').value = '';
+    document.getElementById('email-interesado').value = '';
+    document.getElementById('telefono-interesado').value = '';
+    modal.classList.add('show');
+}
+
+// Función para cerrar modal de interés
+function cerrarFormularioInteres() {
+    const modal = document.getElementById('interesModal');
+    modal.classList.remove('show');
+}
+
+// Cerrar modal al hacer clic fuera
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('interesModal');
+    if (e.target === modal) {
+        cerrarFormularioInteres();
+    }
+});
+
+// Cerrar modal al presionar ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        cerrarFormularioInteres();
+    }
+});
 
 // Cargar productos al iniciar
 document.addEventListener('DOMContentLoaded', () => {
